@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[context.production.environment]
+  # Set VITE_API_BASE_URL in Netlify site settings (do NOT store secrets in this file)
+  # VITE_API_BASE_URL = "https://api.yourdomain.com"
