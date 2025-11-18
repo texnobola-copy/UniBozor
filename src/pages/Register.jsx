@@ -73,7 +73,7 @@ export default function Register() {
           </div>
         )}
 
-        {/* Email */}
+  {/* Email manzili */}
         <div className="relative z-0 w-full group">
           <input
             type="email"
@@ -94,7 +94,7 @@ export default function Register() {
           </label>
         </div>
 
-        {/* Password */}
+  {/* Parol */}
         <div className="relative z-0 w-full group">
           <input
             type="password"
@@ -115,7 +115,7 @@ export default function Register() {
           </label>
         </div>
 
-        {/* Confirm Password */}
+  {/* Parolni tasdiqlash */}
         <div className="relative z-0 w-full group">
           <input
             type="password"
@@ -136,7 +136,7 @@ export default function Register() {
           </label>
         </div>
 
-        {/* Name Fields */}
+  {/* Ism va familiya */}
         <div className="grid md:grid-cols-2 md:gap-6">
           <div className="relative z-0 w-full group">
             <input
@@ -178,7 +178,7 @@ export default function Register() {
           </div>
         </div>
 
-        {/* Phone & Company */}
+  {/* Telefon va kompaniya */}
         <div className="grid md:grid-cols-2 md:gap-6">
           <div className="relative z-0 w-full group">
             <input
@@ -218,7 +218,7 @@ export default function Register() {
           </div>
         </div>
 
-        {/* Submit Button */}
+  {/* Yuborish tugmasi */}
         <button
           type="submit"
           disabled={loading}
