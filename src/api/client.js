@@ -49,7 +49,18 @@ export const authAPI = {
 
 // ===== PRODUCTS API =====
 export const productAPI = {
-  getAll: () => client.get('/products').then(res => res.data),
+  getAll: () =>
+    client.get('/products').then(res => {
+      // Defensive: if server returned HTML (ngrok error page or similar), throw a clear error
+      if (typeof res.data === 'string' && res.data.trim().startsWith('<')) {
+        const snippet = res.data.slice(0, 300)
+        const err = new Error('API returned HTML instead of JSON for /products')
+        err.payload = snippet
+        err.status = res.status
+        throw err
+      }
+      return res.data
+    }),
   getById: (id) => client.get(`/products/${id}`).then(res => res.data),
   create: (data) => client.post('/products', data).then(res => res.data),
   update: (id, data) => client.patch(`/products/${id}`, data).then(res => res.data),
@@ -58,7 +69,17 @@ export const productAPI = {
 
 // ===== CATEGORIES API =====
 export const categoryAPI = {
-  getAll: () => client.get('/categories').then(res => res.data),
+  getAll: () =>
+    client.get('/categories').then(res => {
+      if (typeof res.data === 'string' && res.data.trim().startsWith('<')) {
+        const snippet = res.data.slice(0, 300)
+        const err = new Error('API returned HTML instead of JSON for /categories')
+        err.payload = snippet
+        err.status = res.status
+        throw err
+      }
+      return res.data
+    }),
   getById: (id) => client.get(`/categories/${id}`).then(res => res.data),
   getByIdProducts: (id) => client.get(`/categories/${id}/products`).then(res => res.data),
   create: (data) => client.post('/categories', data).then(res => res.data),
