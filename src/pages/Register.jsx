@@ -81,7 +81,7 @@ export default function Register() {
             id="floating_email"
             value={formData.email}
             onChange={handleChange}
-            className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+            className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
             placeholder=" "
             required
             disabled={loading}
@@ -102,7 +102,7 @@ export default function Register() {
             id="floating_password"
             value={formData.password}
             onChange={handleChange}
-            className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+            className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
             placeholder=" "
             required
             disabled={loading}
@@ -123,7 +123,7 @@ export default function Register() {
             id="floating_repeat_password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+            className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
             placeholder=" "
             required
             disabled={loading}
@@ -145,7 +145,7 @@ export default function Register() {
               id="floating_first_name"
               value={formData.firstName}
               onChange={handleChange}
-              className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+              className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
               placeholder=" "
               required
               disabled={loading}
@@ -164,7 +164,7 @@ export default function Register() {
               id="floating_last_name"
               value={formData.lastName}
               onChange={handleChange}
-              className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+              className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
               placeholder=" "
               required
               disabled={loading}
@@ -187,7 +187,7 @@ export default function Register() {
               id="floating_phone"
               value={formData.phone}
               onChange={handleChange}
-              className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+              className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
               placeholder=" "
               disabled={loading}
             />
@@ -205,7 +205,7 @@ export default function Register() {
               id="floating_company"
               value={formData.company}
               onChange={handleChange}
-              className="block py-2.5 px-0 w-full text-sm text-gray-300 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+              className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
               placeholder=" "
               disabled={loading}
             />
