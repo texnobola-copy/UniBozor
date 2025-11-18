@@ -34,7 +34,7 @@ export default function Products() {
         console.error('API returned non-array for products:', data)
       }
     } catch (err) {
-      // If our API client threw a helpful error (HTML payload), show it in the UI for debugging
+      // Agar API mijozida foydali xatolik bo'lsa (HTML payload), uni UIda ko'rsatish
       if (err?.payload) {
         setError(`${err.message} (status: ${err.status || 'unknown'})`)
         console.error('API HTML payload:', err.payload)
@@ -68,7 +68,7 @@ export default function Products() {
   useEffect(() => {
     let filtered = products
 
-    // Filter by search term
+    // Qidiruv so'zi bo'yicha filtr
     if (searchTerm) {
       filtered = filtered.filter(
         p =>
@@ -77,7 +77,7 @@ export default function Products() {
       )
     }
 
-    // Filter by category
+    // Kategoriya bo'yicha filtr
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(p => p.category === selectedCategory)
     }
@@ -98,17 +98,17 @@ export default function Products() {
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-4xl font-bold mb-8">Products</h1>
 
-        {/* Error Message */}
+        {/* Xatolik xabari */}
         {error && (
           <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
           </div>
         )}
 
-        {/* Filters */}
+        {/* Filtrlar */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <div className="grid md:grid-cols-2 gap-4">
-            {/* Search */}
+            {/* Qidiruv */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Search Products
@@ -122,7 +122,7 @@ export default function Products() {
               />
             </div>
 
-            {/* Category Filter */}
+            {/* Kategoriya bo'yicha filtr */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Filter by Category
@@ -143,7 +143,7 @@ export default function Products() {
           </div>
         </div>
 
-        {/* Products Grid */}
+        {/* Mahsulotlar ro'yxati */}
         {loading ? (
           <div className="text-center py-12">
             <p className="text-lg text-gray-600">Loading products...</p>
@@ -165,7 +165,7 @@ export default function Products() {
           </div>
         )}
 
-        {/* Results Count */}
+        {/* Natijalar soni */}
         <div className="mt-8 text-center text-gray-600">
           <p>Showing {filteredProducts.length} of {products.length} products</p>
         </div>

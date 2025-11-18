@@ -17,7 +17,7 @@ const statusLabels = {
   cancelled: '❌ Cancelled',
 }
 
-// Error Boundary Component
+// Xatoliklarni ushlovchi komponent
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   
-  // Check if user is admin - redirect if not
+  // Faqat adminlar uchun - admin bo'lmasa, bosh sahifaga yo'naltiriladi
   const userRole = localStorage.getItem('userRole')
   const isAdmin = userRole === 'admin' || userRole === 'admin-seller'
   
@@ -94,10 +94,10 @@ export default function AdminDashboard() {
     )
   }
   
-  // Auto-delivery timers tracking
+  // Avto-dostavka taymerlari
   const [autoDeliveryTimers, setAutoDeliveryTimers] = useState({})
 
-  // Form states
+  // Form holatlari
   const [newProduct, setNewProduct] = useState({
     name: '',
     description: '',
@@ -114,16 +114,16 @@ export default function AdminDashboard() {
     fetchAllData()
   }, [])
 
-  // Auto-delivery timer effect: after order status changes to 'shipped', auto-deliver after 5 minutes
+  // Buyurtma 'shipped' bo'lsa, 5 daqiqadan so'ng avtomatik 'delivered' qilinadi
   useEffect(() => {
     const shippedOrders = orders.filter(o => o.status === 'shipped')
     
     shippedOrders.forEach(order => {
-      // If timer doesn't exist for this order, set it up
+      // Agar bu buyurtma uchun timer yo'q bo'lsa, o'rnatiladi
       if (!autoDeliveryTimers[order._id]) {
         const timer = setTimeout(() => {
           handleUpdateOrderStatus(order._id, 'delivered')
-          // Remove timer reference
+          // Timer havolasini o'chirish
           setAutoDeliveryTimers(prev => {
             const newTimers = { ...prev }
             delete newTimers[order._id]
@@ -147,23 +147,23 @@ export default function AdminDashboard() {
   const fetchAllData = async () => {
     try {
       setLoading(true)
-      console.log('DEBUG: Fetching admin data...')
+      // Admin ma'lumotlarini olish
       
       let ordersData = []
       
-      // Try to fetch all orders via admin API first
+      // Avval admin API orqali barcha buyurtmalarni olishga harakat qilamiz
       try {
         const adminOrders = await adminAPI.getAllOrders()
         console.log('DEBUG: Orders from adminAPI.getAllOrders():', adminOrders)
-        // Ensure it's an array
+        // Massiv ekanligiga ishonch hosil qilish
         ordersData = Array.isArray(adminOrders) ? adminOrders : (adminOrders?.orders || adminOrders?.data || [])
       } catch (adminErr) {
         console.warn('DEBUG: adminAPI.getAllOrders() failed with 403 (permission issue), using user orders:', adminErr.message)
-        // Fallback: use user's own orders if admin endpoint fails
+        // Agar admin endpoint ishlamasa, foydalanuvchining buyurtmalarini olish
         try {
           const userOrders = await orderAPI.getMyOrders()
           console.log('DEBUG: Orders from orderAPI.getMyOrders():', userOrders)
-          // Ensure it's an array
+          // Massiv ekanligiga ishonch hosil qilish
           ordersData = Array.isArray(userOrders) ? userOrders : (userOrders?.orders || [])
         } catch (userErr) {
           console.error('DEBUG: Both order API calls failed:', userErr)
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
         }
       }
 
-      // Ensure ordersData is always an array
+      // ordersData har doim massiv bo'lishi kerak
       if (!Array.isArray(ordersData)) {
         console.warn('DEBUG: ordersData is not an array, converting:', ordersData)
         ordersData = []
