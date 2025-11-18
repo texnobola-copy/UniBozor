@@ -20,14 +20,21 @@ export default function Categories() {
     try {
       setLoading(true)
       const data = await categoryAPI.getAll()
-      setCategories(data)
-      setError('')
-      if (data.length > 0) {
-        setSelectedCategory(data[0])
-        fetchProductsByCategory(data[0]._id)
+      if (Array.isArray(data)) {
+        setCategories(data)
+        setError('')
+        if (data.length > 0) {
+          setSelectedCategory(data[0])
+          fetchProductsByCategory(data[0]._id)
+        }
+      } else {
+        setCategories([])
+        setError('Unexpected API response: categories data is not an array')
+        console.error('API returned non-array for categories:', data)
       }
     } catch (err) {
       setError('Failed to load categories')
+      setCategories([])
       console.error(err)
     } finally {
       setLoading(false)
@@ -37,8 +44,13 @@ export default function Categories() {
   const fetchProductsByCategory = async (categoryId) => {
     try {
       const allProducts = await productAPI.getAll()
-      const filtered = allProducts.filter(p => p.categoryId === categoryId)
-      setProducts(filtered)
+      if (Array.isArray(allProducts)) {
+        const filtered = allProducts.filter(p => p.categoryId === categoryId)
+        setProducts(filtered)
+      } else {
+        setProducts([])
+        console.error('API returned non-array for products:', allProducts)
+      }
     } catch (err) {
       console.error('Failed to load products', err)
       setProducts([])
@@ -72,7 +84,7 @@ export default function Categories() {
             <div className="md:col-span-1">
               <h2 className="text-xl font-bold mb-4">All Categories</h2>
               <div className="space-y-2">
-                {categories.map((category) => (
+                {Array.isArray(categories) && categories.map((category) => (
                   <button
                     key={category._id}
                     onClick={() => handleCategorySelect(category)}
@@ -105,7 +117,7 @@ export default function Categories() {
                     </div>
                   ) : (
                     <div className="grid gap-6">
-                      {products.map((product) => (
+                      {Array.isArray(products) && products.map((product) => (
                         <div
                           key={product._id}
                           className="bg-white p-4 rounded-lg shadow-md"

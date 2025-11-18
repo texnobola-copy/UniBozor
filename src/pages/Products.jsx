@@ -22,11 +22,20 @@ export default function Products() {
     try {
       setLoading(true)
       const data = await productAPI.getAll()
-      setProducts(data)
-      setFilteredProducts(data)
-      setError('')
+      if (Array.isArray(data)) {
+        setProducts(data)
+        setFilteredProducts(data)
+        setError('')
+      } else {
+        setProducts([])
+        setFilteredProducts([])
+        setError('Unexpected API response: products data is not an array')
+        console.error('API returned non-array for products:', data)
+      }
     } catch (err) {
       setError('Failed to load products')
+      setProducts([])
+      setFilteredProducts([])
       console.error(err)
     } finally {
       setLoading(false)
@@ -36,9 +45,15 @@ export default function Products() {
   const fetchCategories = async () => {
     try {
       const data = await productAPI.getAll() // Using same endpoint for demo
-      const uniqueCategories = [...new Set(data.map(p => p.category))]
-      setCategories(uniqueCategories.filter(c => c))
+      if (Array.isArray(data)) {
+        const uniqueCategories = [...new Set(data.map(p => p.category))]
+        setCategories(uniqueCategories.filter(c => c))
+      } else {
+        setCategories([])
+        console.error('API returned non-array for categories:', data)
+      }
     } catch (err) {
+      setCategories([])
       console.error('Failed to load categories', err)
     }
   }
@@ -103,7 +118,7 @@ export default function Products() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All Categories</option>
-                {categories.map((cat) => (
+                {Array.isArray(categories) && categories.map((cat) => (
                   <option key={cat} value={cat}>
                     {cat}
                   </option>
@@ -124,7 +139,7 @@ export default function Products() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
+            {Array.isArray(filteredProducts) && filteredProducts.map((product) => (
               <ProductCard
                 key={product._id}
                 product={product}
