@@ -33,10 +33,16 @@ export default function Products() {
         console.error('API returned non-array for products:', data)
       }
     } catch (err) {
-      setError('Failed to load products')
+      // If our API client threw a helpful error (HTML payload), show it in the UI for debugging
+      if (err?.payload) {
+        setError(`${err.message} (status: ${err.status || 'unknown'})`)
+        console.error('API HTML payload:', err.payload)
+      } else {
+        setError('Failed to load products')
+        console.error(err)
+      }
       setProducts([])
       setFilteredProducts([])
-      console.error(err)
     } finally {
       setLoading(false)
     }
