@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import registerBg from '../assets/register.jpg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -42,7 +43,7 @@ export default function Register() {
         phone: formData.phone,
         company: formData.company
       })
-      navigate('/')
+  navigate('/', { state: { justRegistered: true } })
     } catch (err) {
       setError(err.message || 'Registration failed')
     } finally {
@@ -51,7 +52,15 @@ export default function Register() {
   }
 
   return (
-    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div
+      className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage: `url(${registerBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <form onSubmit={handleSubmit} className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-white">Create Account</h2>

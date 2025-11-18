@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import homeBg from '../assets/home-bg.jpg'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Badge, Button } from 'flowbite-react'
+import { Badge, Button, Spinner } from 'flowbite-react'
 import { HiArrowLeft, HiArrowRight, HiOutlineShoppingCart } from 'react-icons/hi'
+import { productAPI } from '../api/client'
+import ProductCard from '../components/ProductCard'
 
 export default function Home() {
   const { isAuthenticated } = useAuth()
   const [currentSlide, setCurrentSlide] = useState(0)
+  const location = useLocation()
+  const justRegistered = location.state && location.state.justRegistered
+  const [recommended, setRecommended] = useState([])
+  const [loadingRecommended, setLoadingRecommended] = useState(false)
 
   const heroSlides = [
     {
@@ -47,8 +54,29 @@ export default function Home() {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
   }
 
+  useEffect(() => {
+    if (justRegistered) {
+      setLoadingRecommended(true)
+      productAPI.getAll()
+        .then((products) => {
+          // For demo, just pick first 4 products as recommended
+          setRecommended(Array.isArray(products) ? products.slice(0, 4) : [])
+        })
+        .catch(() => setRecommended([]))
+        .finally(() => setLoadingRecommended(false))
+    }
+  }, [justRegistered])
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
+    <div
+      className="min-h-screen w-full"
+      style={{
+        backgroundImage: `url(${homeBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
   {/* HERO CAROUSEL */}
   <div className="relative w-full h-64 sm:h-72 md:h-96 overflow-hidden rounded-lg shadow-2xl m-4">
         {heroSlides.map((slide, idx) => (
@@ -103,109 +131,49 @@ export default function Home() {
         </div>
       </div>
 
-      {/* QUICK CATEGORIES BAR */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-10">
-        <div className="max-w-7xl mx-auto px-4 py-2 sm:py-3 flex gap-3 sm:gap-4 overflow-x-auto">
-          {[
-            { name: 'Hot Deals', icon: '🔥' },
-            { name: 'Electronics', icon: '📱' },
-            { name: 'Fashion', icon: '👗' },
-            { name: 'Home & Garden', icon: '🏠' },
-            { name: 'Beauty', icon: '💄' },
-            { name: 'Sports', icon: '⚽' }
-          ].map((cat, idx) => (
-            <Link
-              key={idx}
-              to="/categories"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 transition-all duration-300 transform hover:scale-105 whitespace-nowrap font-medium text-sm border border-gray-200"
-            >
-              {cat.icon} {cat.name}
-            </Link>
-          ))}
-        </div>
-      </div>
 
-      {/* FEATURED PRODUCTS SECTION */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-4xl font-black text-gray-900">🔥 Hot Deals</h2>
-            <p className="text-gray-600 mt-2">Limited time offers - Don't miss out!</p>
-          </div>
+      {/* SITE INFO SECTION */}
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center bg-white/80 rounded-2xl shadow-lg mt-12">
+        <h2 className="text-4xl font-black text-gray-900 mb-4">Welcome to UniBozor!</h2>
+        <p className="text-lg text-gray-700 mb-6">
+          UniBozor is your one-stop online marketplace for students and the university community. Buy, sell, and discover a wide range of products, from electronics and fashion to books and more. Enjoy a secure, user-friendly platform designed to make campus trading easy and safe.
+        </p>
+        <ul className="text-left text-base text-gray-800 mx-auto max-w-2xl mb-6 list-disc list-inside">
+          <li>🛒 Buy and sell new or used items with ease</li>
+          <li>🔒 Safe and secure transactions</li>
+          <li>🚚 Fast delivery and easy returns</li>
+          <li>💬 Chat with sellers and buyers directly</li>
+          <li>🎓 Built for students, by students</li>
+        </ul>
+        <div className="mt-8">
           <Link
-            to="/products"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+            to="/register"
+            className="inline-block bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105"
           >
-            View All <HiArrowRight />
+            Join Now
           </Link>
         </div>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((product) => (
-            <div
-              key={product}
-              className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group border border-gray-100"
-            >
-              {/* Product Image Container */}
-              <div className="relative bg-gradient-to-br from-blue-100 to-purple-100 h-40 sm:h-48 md:h-56 flex items-center justify-center overflow-hidden">
-                {/* Discount Badge */}
-                <div className="absolute top-3 right-3 z-10">
-                  <Badge color="red" className="text-sm font-bold">
-                    -40%
-                  </Badge>
-                </div>
-
-                {/* Product Icon */}
-                <div className="text-6xl group-hover:scale-110 transition-transform duration-300">
-                  {['📱', '💻', '🎧', '⌚', '📷', '🎮', '💡', '🖱️'][product % 8]}
-                </div>
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                  <Button
-                    color="primary"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    Quick View
-                  </Button>
-                </div>
-              </div>
-
-              {/* Product Info */}
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-gray-900 truncate mb-2">
-                  Premium Product {product}
-                </h3>
-
-                {/* Rating */}
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="text-yellow-500">⭐⭐⭐⭐⭐</div>
-                  <span className="text-gray-600 text-sm">(234)</span>
-                </div>
-
-                {/* Price */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-2xl font-black text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
-                    {999 + product * 100} so'm
-                  </span>
-                  <span className="text-sm text-gray-500 line-through">
-                    {Math.round((999 + product * 100) * 1.67)} so'm
-                  </span>
-                </div>
-
-                {/* Add to Cart Button */}
-                <Button
-                  color="success"
-                  className="w-full"
-                >
-                  🛒 Add to Cart
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
+
+      {/* RECOMMENDED PRODUCTS AFTER REGISTRATION */}
+      {justRegistered && (
+        <div className="max-w-5xl mx-auto px-4 py-12">
+          <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">Recommended for You</h2>
+          {loadingRecommended ? (
+            <div className="flex justify-center items-center h-32">
+              <Spinner size="xl" />
+            </div>
+          ) : recommended.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {recommended.map(product => (
+                <ProductCard key={product._id || product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-600">No recommendations available.</div>
+          )}
+        </div>
+      )}
 
       {/* PROMOTIONAL BANNER */}
       <div className="max-w-7xl mx-auto px-4 py-12">

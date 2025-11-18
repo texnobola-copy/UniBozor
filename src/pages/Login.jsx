@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import loginBg from '../assets/login.jpg'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { TextInput, Button, Label, Card, Alert, Checkbox } from 'flowbite-react'
@@ -43,7 +44,15 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4 py-12">
+    <div
+      className="min-h-screen w-full flex items-center justify-center px-4 py-12"
+      style={{
+        backgroundImage: `url(${loginBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="w-full max-w-md">
         {/* Background Decorations */}
         <div className="absolute inset-0 -z-10 overflow-hidden">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import productBg from '../assets/product.jpg'
 import { productAPI } from '../api/client'
 import ProductCard from '../components/ProductCard'
 import { useCart } from '../context/CartContext'
@@ -85,7 +86,15 @@ export default function Products() {
   }, [searchTerm, selectedCategory, products])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-100 to-teal-50 py-8">
+    <div
+      className="min-h-screen w-full py-8"
+      style={{
+        backgroundImage: `url(${productBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-4xl font-bold mb-8">Products</h1>
 

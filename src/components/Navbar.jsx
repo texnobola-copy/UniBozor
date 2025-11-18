@@ -43,7 +43,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <nav className="relative bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+  <nav className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 border-b border-gray-200 sticky top-0 z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-4">
