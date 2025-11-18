@@ -10,13 +10,13 @@ export default function Profile() {
   const [userInfo, setUserInfo] = useState(null)
   const [activeTab, setActiveTab] = useState('info')
 
-  // Edit Profile Form
+  // Profilni tahrirlash formasi
   const [editForm, setEditForm] = useState({
     username: '',
     email: '',
   })
 
-  // Change Password Form
+  // Parolni o'zgartirish formasi
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
     newPassword: '',
@@ -96,7 +96,7 @@ export default function Profile() {
     try {
       const res = await userAPI.becomeSeller()
       setSuccess(res?.message || 'You are now a seller')
-      // refresh profile
+  // Profilni yangilash
       fetchUserProfile()
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to become seller')
@@ -165,21 +165,21 @@ export default function Profile() {
       <div className="max-w-4xl mx-auto px-4">
         <h1 className="text-4xl font-bold mb-8">My Profile</h1>
 
-        {/* Success Message */}
+  {/* Muvaffaqiyatli xabar */}
         {success && (
           <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
             ✓ {success}
           </div>
         )}
 
-        {/* Error Message */}
+  {/* Xatolik xabari */}
         {error && (
           <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
           </div>
         )}
 
-        {/* Tabs */}
+  {/* Bo'limlar */}
         <div className="flex gap-4 mb-6 border-b">
           <button
             onClick={() => setActiveTab('info')}
@@ -203,14 +203,14 @@ export default function Profile() {
           </button>
         </div>
 
-        {/* Profile Info Tab */}
+  {/* Profil ma'lumotlari bo'limi */}
         {activeTab === 'info' && (
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6">Profile Information</h2>
 
             {userInfo && (
               <form onSubmit={handleUpdateProfile} className="space-y-4">
-                {/* Display Username */}
+                {/* Foydalanuvchi nomi */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Username
@@ -241,7 +241,7 @@ export default function Profile() {
                   />
                 </div>
 
-                {/* Member Since */}
+                {/* A'zo bo'lgan vaqti */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Member Since
@@ -253,7 +253,7 @@ export default function Profile() {
                   </div>
                 </div>
 
-                {/* Submit Button */}
+                {/* Saqlash tugmasi */}
                 <button
                   type="submit"
                   disabled={loading}
@@ -263,7 +263,7 @@ export default function Profile() {
                 </button>
               </form>
             )}
-              {/* Become Seller */}
+              {/* Sotuuvchi bo'lish */}
               {!userInfo?.role || userInfo.role !== 'seller' ? (
                 <div className="mt-4">
                   <button onClick={handleBecomeSeller} className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg">
@@ -276,13 +276,13 @@ export default function Profile() {
           </div>
         )}
 
-        {/* Change Password Tab */}
+  {/* Parolni o'zgartirish bo'limi */}
         {activeTab === 'password' && (
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6">Change Password</h2>
 
             <form onSubmit={handleChangePassword} className="space-y-4 max-w-md">
-              {/* Current Password */}
+              {/* Joriy parol */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Current Password *
@@ -298,7 +298,7 @@ export default function Profile() {
                 />
               </div>
 
-              {/* New Password */}
+              {/* Yangi parol */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   New Password *
@@ -315,7 +315,7 @@ export default function Profile() {
                 <p className="text-xs text-gray-500 mt-1">At least 3 characters</p>
               </div>
 
-              {/* Confirm Password */}
+              {/* Parolni tasdiqlash */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Confirm Password *
@@ -331,7 +331,7 @@ export default function Profile() {
                 />
               </div>
 
-              {/* Submit Button */}
+              {/* O'zgartirish tugmasi */}
               <button
                 type="submit"
                 disabled={loading}
@@ -341,7 +341,7 @@ export default function Profile() {
               </button>
             </form>
 
-            {/* Password Requirements */}
+            {/* Parol talablari */}
             <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
               <p className="font-medium mb-2">Password Requirements:</p>
               <ul className="list-disc list-inside space-y-1">
